@@ -1,19 +1,19 @@
 import { defineConfig } from 'astro/config';
-
+import icon from 'astro-icon'; 
 
 export default defineConfig({
   site: 'https://imkiyo.github.io',
   integrations: [
     icon({
       include: {
-        mdi: ["*"] 
+        mdi: ["*"]
       }
     })
   ],
   output: 'static',
   build: {
     assets: '_assets',
-    inlineStylesheets: 'auto' 
+    inlineStylesheets: 'auto'
   },
   vite: {
     build: {
