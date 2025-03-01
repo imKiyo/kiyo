@@ -1,0 +1,114 @@
+---
+// Create this file as src/components/Placeholder.astro
+export interface Props {
+  width?: number;
+  height?: number;
+  text?: string;
+  bgColor?: string;
+  textColor?: string;
+  type?: 'profile' | 'project';
+}
+
+const {
+  width = 400,
+  height = 300,
+  text = '',
+  bgColor = '#2A2A3A',
+  textColor = '#e5e5e5',
+  type = 'project'
+} = Astro.props;
+
+// Generate a gradient background based on type
+let gradientStyle = '';
+if (type === 'profile') {
+  gradientStyle = `background: linear-gradient(135deg, #EA3671 0%, #EEB78A 100%);`;
+} else {
+  // Generate a random hue for projects to give variety
+  const hue = Math.floor(Math.random() * 360);
+  gradientStyle = `background: linear-gradient(135deg, hsl(${hue}, 70%, 40%) 0%, hsl(${hue + 40}, 70%, 60%) 100%);`;
+}
+
+// Default text based on type
+const defaultText = type === 'profile' ? 'Kiyo' : 'Project Preview';
+const displayText = text || defaultText;
+---
+
+<div class={`placeholder ${type}`} style={`width: ${width}px; height: ${height}px; ${gradientStyle}`}>
+  {type === 'profile' && <div class="avatar-circle">{displayText.charAt(0)}</div>}
+  {type === 'project' && (
+    <div class="project-placeholder-content">
+      <div class="project-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+      </div>
+      <div class="placeholder-text">{displayText}</div>
+    </div>
+  )}
+</div>
+
+<style define:vars={{ textColor }}>
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--textColor);
+    font-family: system-ui, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .placeholder.profile {
+    border-radius: 20px;
+  }
+
+  .avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .project-placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .project-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  .placeholder-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  /* Pattern overlay */
+  .placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.1) 2px, transparent 0);
+    background-size: 20px 20px;
+  }
+</style>
