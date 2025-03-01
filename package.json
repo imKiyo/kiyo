@@ -9,7 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.1",
     "astro": "^5.4.1",
-    "astro-icon": "^1.1.5"
+    "astro-icon": "^1.1.5",
+    "terser": "^5.39.0"
   }
 }
